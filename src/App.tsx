@@ -37,7 +37,7 @@ const initState = () => {
   }
 
   const distances = calculateDistances(blocks, cheese);
-  return { blocks, cheese, distances };
+  return { blocks, cheese, distances, addRemoveCheese: false };
 };
 
 class App extends React.Component {
@@ -45,8 +45,14 @@ class App extends React.Component {
 
   toggle = (row: number, col: number) => {
     const blocks = this.state.blocks.map((value, rowIndex) =>
-      rowIndex === row ? value.map((value, colIndex) => colIndex === col ? !value : value) : value);
+      rowIndex === row ? value.map((value, colIndex) =>
+        colIndex === col ? !(this.state.addRemoveCheese || value) : value) : value);
     const cheese = this.state.cheese.filter(([row1, col1]) => row1 !== row || col1 !== col);
+
+    if (cheese.length === this.state.cheese.length && this.state.addRemoveCheese) {
+      cheese.push([row, col]);
+    }
+
     const distances = calculateDistances(blocks, cheese);
     this.setState({ blocks, cheese, distances });
   };
@@ -63,6 +69,22 @@ class App extends React.Component {
             distances={this.state.distances[index]}
             onClick={colIndex => this.toggle(index, colIndex)}
           />)}
+          <div className="btn-group" role="group" aria-label="Basic example">
+            <button
+              type="button"
+              className={'btn btn-secondary' + (this.state.addRemoveCheese ? '' : ' active')}
+              onClick={() => this.setState({ addRemoveCheese: false })}
+            >
+              <i className="fas fa-square"></i> Add/remove blocks
+            </button>
+            <button
+              type="button"
+              className={'btn btn-secondary' + (this.state.addRemoveCheese ? ' active' : '')}
+              onClick={() => this.setState({ addRemoveCheese: true })}
+            >
+              <i className="fas fa-cheese"></i> Add/remove cheese
+            </button>
+          </div>
           <div>
             <p>Tap on grid squares to add or remove blocks.</p>
             <p>When you make a change, we use breadth-first search to recalculate, for each grid square, the shortest distance to

@@ -1,26 +1,27 @@
 .square {
     float:left;
     position: relative;
-    width: 9%;
+    width: 10%;
     padding-bottom : 8%; /* = width for a 1:1 aspect ratio */
-    margin: 0.5%;
+    margin: 0;
     overflow:hidden;
 }
 
 .content {
     position:absolute;
-    height:80%; /* = 100% - 2*10% padding */
+    height:90%; /* = 100% - 2*5% padding */
     width:90%; /* = 100% - 2*5% padding */
-    padding: 10% 5%;
+    padding: 5% 5%;
     text-align: center;
     border-style: solid;
+    border-width: 1px;
 }
-.table{
+.my-table{
     display:table;
     height:100%;
     width:100%;
 }
-.table-cell{
+.my-table-cell{
     display:table-cell;
     vertical-align:middle;
     height:100%;
