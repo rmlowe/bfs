@@ -4,20 +4,7 @@ import Row from './Row';
 
 const GRID_SIZE = 10;
 
-const initState = () => {
-  const blocks = new Array(GRID_SIZE).fill(false).map(() => new Array(GRID_SIZE).fill(false).map(() => Math.random() < 0.5));
-
-  const cheese: [number, number][] = [];
-  while (cheese.length < 3) {
-    const row = Math.floor(10 * Math.random());
-    const col = Math.floor(10 * Math.random());
-
-    if (!cheese.some(([row1, col1]) => row1 === row && col1 === col)) {
-      cheese.push([row, col]);
-      blocks[row][col] = false;
-    }
-  }
-
+const calculateDistances = (blocks: boolean[][], cheese: [number, number][]): number[][] => {
   const distances = new Array(GRID_SIZE).fill(null).map(() => new Array(GRID_SIZE).fill(null));
 
   const toVisit: [number, number, number][] = cheese.map(([row, col]) => [row, col, 0]);
@@ -32,11 +19,37 @@ const initState = () => {
     toVisit.push([row - 1, col, dist + 1], [row, col - 1, dist + 1], [row, col + 1, dist + 1], [row + 1, col, dist + 1]);
   }
 
+  return distances;
+};
+
+const initState = () => {
+  const blocks = new Array(GRID_SIZE).fill(false).map(() => new Array(GRID_SIZE).fill(false).map(() => Math.random() < 0.5));
+
+  const cheese: [number, number][] = [];
+  while (cheese.length < 3) {
+    const row = Math.floor(10 * Math.random());
+    const col = Math.floor(10 * Math.random());
+
+    if (!cheese.some(([row1, col1]) => row1 === row && col1 === col)) {
+      cheese.push([row, col]);
+      blocks[row][col] = false;
+    }
+  }
+
+  const distances = calculateDistances(blocks, cheese);
   return { blocks, cheese, distances };
 };
 
 class App extends React.Component {
   state = initState();
+
+  toggle = (row: number, col: number) => {
+    const blocks = this.state.blocks.map((value, rowIndex) =>
+      rowIndex === row ? value.map((value, colIndex) => colIndex === col ? !value : value) : value);
+    const cheese = this.state.cheese.filter(([row1, col1]) => row1 !== row || col1 !== col);
+    const distances = calculateDistances(blocks, cheese);
+    this.setState({ blocks, cheese, distances });
+  };
 
   render() {
     const cheeseSlicer = (index: number) => this.state.cheese.filter(([row, _]) => row === index).map(([row, col]) => col);
@@ -48,8 +61,13 @@ class App extends React.Component {
             blocks={blockRow}
             cheese={cheeseSlicer(index)}
             distances={this.state.distances[index]}
+            onClick={colIndex => this.toggle(index, colIndex)}
           />)}
-          <p>We use breadth-first search to calculate, for each grid square, the shortest distance to cheese.</p>
+          <div>
+            <p>Tap on grid squares to add or remove blocks.</p>
+            <p>When you make a change, we use breadth-first search to recalculate, for each grid square, the shortest distance to
+              cheese.</p>
+          </div>
       </div>
     );
   }
