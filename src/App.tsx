@@ -49,6 +49,7 @@ class App extends React.Component {
             cheese={cheeseSlicer(index)}
             distances={this.state.distances[index]}
           />)}
+          <p>We use breadth-first search to calculate, for each grid square, the shortest distance to cheese.</p>
       </div>
     );
   }
