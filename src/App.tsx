@@ -32,7 +32,7 @@ const initState = () => {
     toVisit.push([row - 1, col, dist + 1], [row, col - 1, dist + 1], [row, col + 1, dist + 1], [row + 1, col, dist + 1]);
   }
 
-  return { blocks, cheese };
+  return { blocks, cheese, distances };
 };
 
 class App extends React.Component {
@@ -43,7 +43,12 @@ class App extends React.Component {
     return (
       <div className="App">
         {this.state.blocks.map((blockRow, index) =>
-          <Row key={index} blocks={blockRow} index={index} cheese={cheeseSlicer(index)} />)}
+          <Row
+            key={index}
+            blocks={blockRow}
+            cheese={cheeseSlicer(index)}
+            distances={this.state.distances[index]}
+          />)}
       </div>
     );
   }
