@@ -1,0 +1,36 @@
+- pipeline: "Deploy Client"
+  trigger_mode: "ON_EVERY_PUSH"
+  ref_name: "master"
+  ref_type: "BRANCH"
+  target_site_url: "https://bfs.rmlowe.com/"
+  fail_on_prepare_env_warning: true
+  trigger_condition: "ALWAYS"
+  actions:
+  - action: "Execute: npm run build"
+    type: "BUILD"
+    working_directory: "/buddy/bfs"
+    docker_image_name: "library/node"
+    docker_image_tag: "12"
+    execute_commands:
+    - "npm install"
+    - "npm run build"
+    volume_mappings:
+    - "/:/buddy/bfs"
+    trigger_condition: "ALWAYS"
+    shell: "BASH"
+  - action: "Upload files to AWS S3/bfs"
+    type: "AMAZON_S3"
+    input_type: "BUILD_ARTIFACTS"
+    local_path: "/build"
+    bucket_name: "bfs"
+    acl: "PRIVATE"
+    integration_hash: "5f2ff9f5da64d3331fbb799d"
+  - action: "Purge cache at E2YV6TU6HGIFNS"
+    type: "CLOUD_FRONT"
+    input_type: "SCM_REPOSITORY"
+    distribution_id: "E2YV6TU6HGIFNS"
+    purge_all: true
+    purge_by_change_set_limit: 10
+    trigger_condition: "ALWAYS"
+    timeout: 0
+    integration_hash: "5f2ff9f5da64d3331fbb799d"
