@@ -12,7 +12,7 @@ const cell = ({ block, cheese, distance, onClick }: Props) =>
         <div className={block ? 'content block' : 'content'} onClick={onClick} >
             <div className="my-table">
                 <div className="my-table-cell" style={{ color: 'Gray' }}>
-                    {cheese ? <i style={{ color: 'DarkOrange' }} className="fas fa-cheese"></i> : distance}
+                    {cheese ? <i className="fas fa-bug"></i> : distance}
                 </div>
             </div>
         </div>

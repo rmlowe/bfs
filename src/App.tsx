@@ -82,13 +82,13 @@ class App extends React.Component {
               className={'btn btn-secondary' + (this.state.addRemoveCheese ? ' active' : '')}
               onClick={() => this.setState({ addRemoveCheese: true })}
             >
-              <i className="fas fa-cheese"></i> Add/remove cheese
+              <i className="fas fa-bug"></i> Add/remove bugs
             </button>
           </div>
           <div>
-            <p>Tap on grid squares to add or remove blocks.</p>
+        <p>Tap on grid squares to add or remove {this.state.addRemoveCheese ? 'bugs' : 'blocks'}.</p>
             <p>When you make a change, we use breadth-first search to recalculate, for each grid square, the shortest distance to
-              cheese.</p>
+              a bug.</p>
           </div>
       </div>
     );
