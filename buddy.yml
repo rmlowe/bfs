@@ -3,6 +3,8 @@
   ref_name: "master"
   ref_type: "BRANCH"
   target_site_url: "https://bfs.rmlowe.com/"
+  auto_clear_cache: true
+  fetch_all_refs: true
   fail_on_prepare_env_warning: true
   trigger_condition: "ALWAYS"
   actions:
