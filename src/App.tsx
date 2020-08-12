@@ -50,7 +50,7 @@ const initState = () => {
 
   blocks[kiwi[0]][kiwi[1]] = false;
   const distances = calculateDistances(blocks, cheese);
-  return { blocks, cheese, distances, addRemoveCheese: false, kiwi };
+  return { blocks, cheese, distances, addRemoveCheese: false, kiwi, showDistances: false };
 };
 
 const moves: [number, number][] = [[-1, 0], [0, -1], [0, 1], [1, 0]];
@@ -132,7 +132,7 @@ class App extends React.Component {
             key={index}
             blocks={blockRow}
             cheese={cheeseSlicer(index)}
-            distances={this.state.distances[index]}
+            distances={this.state.showDistances ? this.state.distances[index] : new Array(GRID_SIZE)}
             onClick={colIndex => this.toggle(index, colIndex)}
             kiwi={this.state.kiwi[0] === index ? [this.state.kiwi[1]] : []}
           />)}
@@ -151,6 +151,19 @@ class App extends React.Component {
           >
             <i className="fas fa-bug"></i> Add/remove bugs
             </button>
+        </div>
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            value=""
+            id="showDistances"
+            checked={this.state.showDistances}
+            onChange={() => this.setState({ showDistances: !this.state.showDistances })}
+          />
+          <label className="form-check-label" htmlFor="showDistances">
+            Show distances
+          </label>
         </div>
         <div>
           <p>Tap on grid squares to add or remove {this.state.addRemoveCheese ? 'bugs' : 'blocks'}.</p>
