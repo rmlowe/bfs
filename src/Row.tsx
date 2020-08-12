@@ -6,9 +6,10 @@ export interface Props {
     cheese: number[];
     distances: number[];
     onClick: (index: number) => void;
+    kiwi: number[]
 }
 
-const row = ({ blocks, cheese, distances, onClick }: Props) =>
+const row = ({ blocks, cheese, distances, onClick, kiwi }: Props) =>
     <>{blocks.map((block, colIndex) =>
         <Cell
             key={colIndex}
@@ -16,6 +17,7 @@ const row = ({ blocks, cheese, distances, onClick }: Props) =>
             cheese={cheese.includes(colIndex)}
             distance={distances[colIndex]}
             onClick={() => onClick(colIndex)}
+            kiwi={kiwi.includes(colIndex)}
         />)}</>;
 
 export default row;
