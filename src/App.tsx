@@ -111,7 +111,7 @@ class App extends React.Component {
         const move = bestMoves[Math.floor(bestMoves.length * Math.random())];
         const bugs = this.removeBug(move);
         this.setState({
-          kiwi: bestMoves[Math.floor(bestMoves.length * Math.random())],
+          kiwi: move,
           cheese: bugs,
           distances: calculateDistances(this.state.blocks, bugs)
         });
