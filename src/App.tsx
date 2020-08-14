@@ -126,50 +126,54 @@ class App extends React.Component {
   render() {
     const cheeseSlicer = (index: number) => this.state.cheese.filter(([row, _]) => row === index).map(([row, col]) => col);
     return (
-      <div className="App">
-        {this.state.blocks.map((blockRow, index) =>
-          <Row
-            key={index}
-            blocks={blockRow}
-            cheese={cheeseSlicer(index)}
-            distances={this.state.showDistances ? this.state.distances[index] : new Array(GRID_SIZE)}
-            onClick={colIndex => this.toggle(index, colIndex)}
-            kiwi={this.state.kiwi[0] === index ? [this.state.kiwi[1]] : []}
-          />)}
-        <div className="btn-group" role="group" aria-label="Basic example">
-          <button
-            type="button"
-            className={'btn btn-secondary' + (this.state.addRemoveCheese ? '' : ' active')}
-            onClick={() => this.setState({ addRemoveCheese: false })}
-          >
-            <i className="fas fa-square"></i> Add/remove blocks
-            </button>
-          <button
-            type="button"
-            className={'btn btn-secondary' + (this.state.addRemoveCheese ? ' active' : '')}
-            onClick={() => this.setState({ addRemoveCheese: true })}
-          >
-            <i className="fas fa-bug"></i> Add/remove bugs
-            </button>
+      <div className="row mt-3">
+        <div className="col-md mb-3">
+          {this.state.blocks.map((blockRow, index) =>
+            <Row
+              key={index}
+              blocks={blockRow}
+              cheese={cheeseSlicer(index)}
+              distances={this.state.showDistances ? this.state.distances[index] : new Array(GRID_SIZE)}
+              onClick={colIndex => this.toggle(index, colIndex)}
+              kiwi={this.state.kiwi[0] === index ? [this.state.kiwi[1]] : []}
+            />)}
         </div>
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            value=""
-            id="showDistances"
-            checked={this.state.showDistances}
-            onChange={() => this.setState({ showDistances: !this.state.showDistances })}
-          />
-          <label className="form-check-label" htmlFor="showDistances">
-            Show distances
+        <div className="col-md">
+          <div className="btn-group btn-block" role="group" aria-label="Basic example">
+            <button
+              type="button"
+              className={'btn btn-secondary' + (this.state.addRemoveCheese ? '' : ' active')}
+              onClick={() => this.setState({ addRemoveCheese: false })}
+            >
+              <i className="fas fa-square"></i> Add/remove blocks
+            </button>
+            <button
+              type="button"
+              className={'btn btn-secondary' + (this.state.addRemoveCheese ? ' active' : '')}
+              onClick={() => this.setState({ addRemoveCheese: true })}
+            >
+              <i className="fas fa-bug"></i> Add/remove bugs
+            </button>
+          </div>
+          <div className="form-check my-3">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value=""
+              id="showDistances"
+              checked={this.state.showDistances}
+              onChange={() => this.setState({ showDistances: !this.state.showDistances })}
+            />
+            <label className="form-check-label" htmlFor="showDistances">
+              Show distances
           </label>
-        </div>
-        <div>
-          <p>Tap on grid squares to add or remove {this.state.addRemoveCheese ? 'bugs' : 'blocks'}.</p>
-          <p>When you make a change, we use breadth-first search to recalculate, for each grid square, the fewest moves needed to
+          </div>
+          <div>
+            <p>Tap on grid squares to add or remove {this.state.addRemoveCheese ? 'bugs' : 'blocks'}.</p>
+            <p>When you make a change, we use breadth-first search to recalculate, for each grid square, the fewest moves needed to
             reach a bug.</p>
             <p>On each turn, the kiwi moves to the adjacent square with the shortest distance to a bug.</p>
+          </div>
         </div>
       </div>
     );
